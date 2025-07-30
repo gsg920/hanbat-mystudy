@@ -3,13 +3,12 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral()  // 의존 라이브러리를 갖고 있는 중앙 저장소 서버에 주소를 지정한다.
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.12.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'com.google.guava:guava:33.4.5-jre'
 }
 
 java {
@@ -23,9 +22,13 @@ application {
 }
 
 jar {
-    archiveFileName = "myapp.jar" 
+    archiveFileName = "myapp.jar"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('run') {
+    standardInput = System.in // 표준 입력을 시스템 입력으로 설정
 }

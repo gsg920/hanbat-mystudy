@@ -1,24 +1,30 @@
 plugins {
-    id 'application'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.4'
 }
+
+// SpringBoot 의 버전에 맞춰 의존 라이브러리 버전을 관리하는 플러그인
+apply plugin: 'io.spring.dependency-management'
 
 repositories {
     mavenCentral()  // 의존 라이브러리를 갖고 있는 중앙 저장소 서버에 주소를 지정한다.
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.12.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-application {
-    mainClass = 'org.example.myapp.App'
 }
 
 jar {
@@ -29,6 +35,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.named('run') {
-    standardInput = System.in // 표준 입력을 시스템 입력으로 설정
+tasks.withType(JavaExec) {
+    systemProperty 'sun.stdout.encoding', 'UTF-8'
+    systemProperty 'sun.stderr.encoding', 'UTF-8'  // 키보드입력시 한글 안깨지는 설정
 }
